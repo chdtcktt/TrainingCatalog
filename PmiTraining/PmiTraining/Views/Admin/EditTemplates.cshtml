@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "EditTemplates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script src="~/ScriptsCustom/Admin/EditTemplatesScript.js"></script>
+}
+
+
+<h2>Admin</h2>
+
+
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li><a href="EditUser">User</a></li>
+        <li><a href="EditCourses">Course</a></li>
+        <li class="active"><a href="EditTemplates">Template</a></li>
+    </ul>
+</div>
+
+<h4>EditTemplates</h4>
+<div data-bind="with: TemplateList">
+    <select data-bind="
+    value: $root.SelectedTemplateId,
+    options: TemplateLists,
+    optionsText: 'CourseName',
+    optionsValue: 'CourseTemplateId',
+    optionsCaption: 'Please choose a Template...'">
+    </select>
+</div>
+
+<div data-bind="with: TemplateAttributes">
+    <table class="table table-striped">
+        <thead class="Cust-Font-Bold">
+            <tr>
+                <td>Courses</td>
+                <td>Taking Course</td>
+                <td>Teaching Course</td>
+            </tr>
+        </thead>
+
+        <tbody data-bind="foreach: Courses">
+            <tr>
+                <td data-bind="text: CourseName"></td>
+                <td>
+                    <input type="checkbox" data-bind="checked: IsTaking" />
+                </td>
+                <td>
+                    <input type="checkbox" data-bind="checked: IsTeaching" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<br />
+
+<button class="btn btn-default" data-bind="click: GoBackButton">Go Back</button>
+<button class="btn btn-primary" data-bind="click: SaveButton, enable: ButtonsVisible">Save</button>
+<button class="btn btn-primary" data-bind="click: CreateNewButton">Create New Template</button>
+<button class="btn btn-primary" data-bind="click: DeleteTempButton, enable: ButtonsVisible">Delete Template</button>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Create New Template</h4>
+            </div>
+            <div class="modal-body">
+                <label>Template Name: </label>
+                <input type="text" data-bind="value:$root.PostTemplate.TemplateName" />
+
+                <br />
+                <br />
+                <div data-bind="with: NewTemplate">
+
+                    <table class="table table-striped">
+                        <thead class="Cust-Font-Bold">
+                            <tr>
+                                <td>Course Name</td>
+                                <td>Taking Course</td>
+                                <td>Teaching Course</td>
+                            </tr>
+                        </thead>
+
+                        <tbody data-bind="foreach: AddTemplateCourses">
+                            <tr>
+                                <td data-bind="text: CourseName"></td>
+                                <td>
+                                    <input type="checkbox" data-bind="value: CourseId, checked: $root.PostTemplate.IsTaking" />
+                                </td>
+                                <td>
+                                    <input type="checkbox" data-bind="value: CourseId, checked: $root.PostTemplate.IsTeaching" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click: SaveNewTemplate ">Save New Template</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="deleteTemplateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                <h4 class="modal-title">WARNING</h4>
+            </div>
+            <div class="modal-body">
+                <p>This will completely delete this template, all currently assigned courses will not be affected. Are you sure this is what you want to do?</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="confirmDeletTemplateButton" type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+</div>

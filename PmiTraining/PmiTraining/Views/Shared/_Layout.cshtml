@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <!--    
+        *  *()Ooc()*   o  .
+        (Q*0CG*O()  ___
+        |\_________/|/ _ \
+        |  |  |  |  | / | |
+        |  |  |  |  | | | |
+        |  |  |  |  | | | |
+        |  |  |  |  | | | |
+        |  |  |  |  | | | |
+        |  |  |  |  | \_| |
+        |  |  |  |  |\___/  
+        |\_|__|__|_/|
+        \_________/   CHEERS!
+                            -The Chad
+        -->
+
+
+
+
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/Knockout-mapping")
+    @Scripts.Render("~/bundles/bootstrap.min")
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+
+    @RenderBody()
+
+
+    <script src="~/Scripts/Base.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

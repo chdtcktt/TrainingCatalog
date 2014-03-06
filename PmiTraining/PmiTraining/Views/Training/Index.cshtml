@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section scripts
+{
+
+    <script src="~/ScriptsCustom/Training/IndexScript.js"></script>
+}
+
+<br/>
+<form data-bind="attr: {action: CreateButton}">
+    <input class="btn btn-primary" type="submit" value="Admin"/>
+</form>
+
+
+<table class="table table-striped ">
+    <thead class="Cust-Font-Bold">
+        <tr>
+            <td>Student</td>
+            <td>Training Status</td>
+            <td>Progress</td>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: Students">
+        <tr>
+            <td><a data-bind="text: Name, attr: {href: StudentDetailsURL}"></a></td>
+            <td data-bind="text: TrainingStatusMessage"></td>
+            <td>
+                <div class="progress">
+                    <div id="ProgressBarStatus" class="progress-bar" data-bind="style: { width: ProgressBarValue }"></div>
+                </div>
+            </td>
+            <td data-bind="text: CourseProgress"></td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+

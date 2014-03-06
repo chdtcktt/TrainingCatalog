@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "StudentDetails";
+}
+
+@section scripts
+{
+    <script>
+        var studentId = '@(ViewBag.StudentId)';
+    </script>
+    <script src="~/ScriptsCustom/Training/StudentDetailsScript.js"></script>
+}
+<div data-bind="with: StudentValues">
+    <h2 data-bind="text: PageHeadline"></h2>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Courses Taking</td>
+                <td>Teacher</td>
+                <td>Description</td>
+                <td>Completed Date</td>
+                <td>Status</td>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: CoursesTaking">
+            <tr>
+                <td data-bind="text: CourseTaking"></td>
+                <td data-bind="text: Teacher"></td>
+                <td data-bind="text: Note"></td>
+                <td>
+                    <div data-bind="visible: CourseCompleted()">
+                        <div data-bind="text: DateCourseCompleted()"></div>
+                    </div>
+                </td>
+                <td>
+                    <button class="btn btn-primary" data-bind="click: $root.SaveItem, text: CourseCompleted() == true ? 'Completed' : 'In progress'"></button>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <div data-bind="visible: IsTeacher()">
+
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <td>Courses Teaching</td>
+                    <td>Description</td>
+
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: CoursesTeaching">
+                <tr>
+                    <td data-bind="text: CourseTeaching"></td>
+                    <td data-bind="text: Note"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+

@@ -1,0 +1,200 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+
+@section scripts
+{
+    <script src="~/ScriptsCustom/Admin/EditUserScript.js"></script>
+}
+
+<h2>Admin</h2>
+
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="EditUser">User</a></li>
+        <li><a href="EditCourses">Course</a></li>
+        <li><a href="EditTemplates">Template</a></li>
+    </ul>
+</div>
+
+
+    <h4>EditUser</h4>
+<select data-bind="
+    value: Person.SelectedPersonId,
+    options: People,
+    optionsText: 'PersonName',
+    optionsValue: 'PersonId',
+    optionsCaption: 'Please choose an existing user...'">
+</select>
+<br />
+
+<div data-bind="with: Person.PersonAttr">
+    <label>Active</label>
+    <input type="checkbox" data-bind="checked: IsActive" />
+    <br />
+    <br />
+
+    <table class="table table-striped">
+        <thead class="Cust-Font-Bold">
+            <tr>
+                <td>Courses</td>
+                <td>Taking Course</td>
+                <td>Teaching Course</td>
+                <td>Remove Course</td>
+            </tr>
+        </thead>
+
+        <tbody data-bind="foreach: Courses">
+            <tr>
+                <td data-bind="text: CourseName"></td>
+                <td>
+                    <input type="checkbox" data-bind="checked: IsTaking" />
+                </td>
+                <td>
+                    <input type="checkbox" data-bind="checked: IsTeaching" />
+                </td>
+                <td>
+                    <button class="btn-default" data-bind="click: $root.RemoveCourseButton">X</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<br />
+
+<button class="btn btn-default" data-bind="click: GoBackButton">Go Back</button>
+<button class="btn btn-primary" data-bind="click: SaveButton, enable: SaveButtonVisible">Save</button>
+<button class="btn btn-primary" data-bind="click: AddCoursesButton, enable: SaveButtonVisible">Add Courses</button>
+<button class="btn btn-primary" data-bind="click: CreateNewButton">Create New User</button>
+<button class="btn btn-primary" data-bind="click: DeleteUserButton, enable: SaveButtonVisible">Delete User</button>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Create New User</h4>
+            </div>
+            <div class="modal-body">
+                <div data-bind="with: NewUser">
+                    <label>First Name: </label>
+                    <input type="text" data-bind="value: FirstName" />
+                    <label>Last Name: </label>
+                    <input type="text" data-bind="value: LastName" />
+                    <br />
+                    <br />
+                </div>
+
+                <div data-bind="with: CreateNewUserAttr">
+
+                    <label>Course Template: </label>
+                    <select
+                        data-bind="options: Templates, optionsText: 'TemplateName', value: $root.SelectedTemplateId, optionsValue: 'TemplateId', optionsCaption: 'Please choose a course template...'">
+                    </select>
+                    <br />
+                    <br />
+                    <table class="table table-striped">
+                        <thead class="Cust-Font-Bold">
+                            <tr>
+                                <td>Course Name</td>
+                                <td>Taking Course</td>
+                                <td>Teaching Course</td>
+                            </tr>
+                        </thead>
+
+                        <tbody data-bind="foreach: Courses">
+                            <tr>
+                                <td data-bind="text: CourseName"></td>
+                                <td>
+                                    <input type="checkbox" data-bind="value: CourseId, checked: $root.NewUser().CoursesTaking" />
+                                </td>
+                                <td>
+                                    <input type="checkbox" data-bind="value: CourseId, checked: $root.NewUser().CoursesTeaching" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click: SaveNewUserButton">Save New User</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="addModal" data-bind="with: CoursesToAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                <h4 class="modal-title">Add Courses to <span data-bind="text: SelectedPersonName"></span></h4>
+            </div>
+            <div class="modal-body">
+
+
+                <table class="table table-striped">
+                    <thead class="Cust-Font-Bold">
+                        <tr>
+                            <td>Courses</td>
+                            <td>Add</td>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: Courses">
+                        <tr>
+                            <td data-bind="text: CourseName"></td>
+                            <td>
+                                <input type="checkbox" data-bind="checked: IsSelected" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.SaveAddedCoursesButton">Add</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                <h4 class="modal-title">WARNING</h4>
+            </div>
+            <div class="modal-body">
+                <p>This will completely delete this user and all  training resources associated. Are you sure this is what you want to do?</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="confirmDeletUserButton" type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+</div>
